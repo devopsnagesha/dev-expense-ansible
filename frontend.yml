@@ -8,7 +8,7 @@
         state: latest
 
     - name: copy Expense Nginx Configuration
-      ansible.builtin.systemd_service:
+      ansible.builtin.copy:
         src: expense.conf
         dest: /etc/nginx/default.d/expense.conf
 
@@ -19,7 +19,7 @@
 
     - name: Create App Directory
       ansible.builtin.file:
-        path: /usr/share/ngins/html
+        path: /usr/share/nginx/html
         state: directory
 
     - name: Download and Extract App Content
