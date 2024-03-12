@@ -58,7 +58,7 @@
         login_host: mysql-dev.angadicnc.online
 
     - name: Start backend service
-      ansible.builtin.service:
+      ansible.builtin.systemd_service:
         name: backend
         state: restarted
         enabled: yes
