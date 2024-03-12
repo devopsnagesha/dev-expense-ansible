@@ -44,9 +44,8 @@
         dest: /etc/systemd/system/backend.service
 
     - name: Install mysql client
-      ansible.builtin.dnf:
-        name: mysql
-        state: present
+      ansible.builtin.shell:  dnf install mysql -y
+
 
     - name: loading schema
       ansible.builtin.shell: mysql -h mysql-dev.angadicnc.online -uroot -pExpenseApp@1 < /app/schema/backend.sql
