@@ -48,14 +48,9 @@
         name: mysql
         state: present
 
-    - name: Load schema
-      community.mysql.mysql_db:
-        state: import
-        name: all
-        target: /app/schema/backend.sql
-        login_user: root
-        login_password: ExpenseApp@1
-        login_host: mysql-dev.angadicnc.online
+    - name: loading schema
+      ansible.builtin.shell: mysql -h mysql-dev.angadicnc.online -uroot -pExpenseApp@1 < /app/schema/backend.sql
+
 
     - name: Start backend service
       ansible.builtin.systemd_service:
