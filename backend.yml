@@ -5,13 +5,13 @@
     - name: Disable Nodejs version module
       ansible.builtin.shell: dnf module disable nodejs -y
 
-    - name: Enable Nodejs version module
+    - name: Enable Nodejs module v20
       ansible.builtin.shell: dnf module enable nodejs:20 -y
 
     - name: Install nodejs
       ansible.builtin.dnf:
         name: nodejs
-        state: latest
+        state: installed
 
     - name: Adding Application User
       ansible.builtin.user:
