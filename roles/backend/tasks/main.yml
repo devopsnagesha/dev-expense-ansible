@@ -18,7 +18,7 @@
     name: common
     tasks_from: app-pre-req
 
-- name: Install nodejs dependencies
+- name: Download nodejs dependencies
   community.general.npm:
     path: /app
     state: present
