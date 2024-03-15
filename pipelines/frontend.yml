@@ -9,8 +9,9 @@ pipelines:
         auto_update: true
         branch: main
     stages:
-    - Dev:
+    - DEV:
         fetch_materials: true
+        environment_variables:
         approval:
           type: manual
         jobs:
@@ -18,24 +19,11 @@ pipelines:
             tasks:
             - exec:
                 arguments:
-                - ansible.sh
-                - frontend
+                  - ansible.sh
+                  - frontend
                 command: bash
                 run_if: passed
     - QA:
-        fetch_materials: true
-        approval:
-          type: manual
-        jobs:
-          ansible-playbook:
-            tasks:
-              - exec:
-                  arguments:
-                  - ansible.sh
-                  - frontend
-                  command: bash
-                  run_if: passed
-    - STAGE:
         fetch_materials: true
         approval:
           type: manual
@@ -48,6 +36,19 @@ pipelines:
                     - frontend
                   command: bash
                   run_if: passed
+    - STAGE:
+        fetch_materials: true
+        approval:
+          type: manual
+        jobs:
+          ansible-playbook:
+            tasks:
+            - exec:
+                arguments:
+                  - ansible.sh
+                  - frontend
+                command: bash
+                run_if: passed
     - PROD:
         fetch_materials: true
         approval:
