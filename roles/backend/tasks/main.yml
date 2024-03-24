@@ -16,7 +16,7 @@
 - name: Import app-pre-requisites
   ansible.builtin.import_role:
     name: common
-    tasks_from: app-pre-req
+    tasks_from: app-pre-req.yml
 
 - name: Download nodejs dependencies
   community.general.npm:
@@ -25,8 +25,8 @@
 
 - name: Copy Backend Service file
   ansible.builtin.template:
-    src: backend.service
-    dest: /etc/systemd/system/backend.service
+    src: expense.conf
+    dest: /etc/systemd/system/expense.conf
 
 - name: Install Python mysql client
   ansible.builtin.pip:
