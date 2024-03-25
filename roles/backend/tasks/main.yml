@@ -1,10 +1,10 @@
-- name: Disable Nodejs version module
+- name: Disable default NodeJS Version Module
   ansible.builtin.shell: dnf module disable nodejs -y
 
-- name: Enable Nodejs module v20
-  ansible.builtin.shell: dnf module enable nodejs:20 -y
+- name: Enable NodeJS module for V20
+  ansible.builtin.shell: dnf module disable nodejs -y
 
-- name: Install nodejs
+- name: Install NodeJS
   ansible.builtin.dnf:
     name: nodejs
     state: installed
@@ -13,12 +13,12 @@
   ansible.builtin.user:
     name: expense
 
-- name: Import app-pre-requisites
+- name: Import App Pre Requisites
   ansible.builtin.import_role:
     name: common
-    tasks_from: app-pre-req.yml
+    tasks_from: app-pre-req
 
-- name: Download nodejs dependencies
+- name: Download NodeJS Dependencies
   community.general.npm:
     path: /app
     state: latest
@@ -26,16 +26,21 @@
 - name: Copy Backend Service file
   ansible.builtin.template:
     src: backend.service
-    dest: /etc/systemd/system/expense.conf
+    dest: /etc/systemd/system/backend.service
 
-- name: Install Python mysql client
+- name: Install Python MySQL Client
   ansible.builtin.pip:
     name:
       - PyMySQL
       - cryptography
     executable: pip3.9
 
-- name: Load schema
+- name: Install MySQL Client
+  ansible.builtin.dnf:
+    name: mysql
+    state: installed
+
+- name: Load Schema
   community.mysql.mysql_db:
     state: import
     name: all
@@ -44,7 +49,7 @@
     login_password: ExpenseApp@1
     login_host: mysql-dev.angadicnc.online
 
-- name: Start backend service
+- name: Start Backend Service
   ansible.builtin.systemd_service:
     name: backend
     state: restarted
